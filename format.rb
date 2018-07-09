@@ -1,12 +1,26 @@
 class Format
-  attr_reader :errors, :time_string
 
   FORMAT = { year: '%Y', month: '%M', day: '%d', hour: '%k', minute: '%M', second: '%S' }.freeze
 
-  def initialize(keys)
+  def initialize(request)
+    @request     = request
     @errors      = []
     @time_string = ''
-    matching(keys)
+  end
+
+
+  def formatted_time
+    if validation
+      matching(@request.params["format"].split(','))
+      if @errors.empty?
+        t = Time.now
+        Rack::Response.new([t.strftime(@time_string.chop!)], 200)
+      else
+        Rack::Response.new(["Unknown time format #{@errors}"], 400)
+      end
+    else
+      Rack::Response.new(["Unknown time format #{@request.path_info}"], 404)
+    end
   end
 
   private
@@ -21,9 +35,11 @@ class Format
     end
   end
 
-
   def format_time_string(key)
     @time_string << key << '-'
   end
 
+  def validation
+    @request.path_info == '/time'
+  end
 end
