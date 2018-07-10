@@ -1,6 +1,6 @@
 class Format
 
-  attr_reader :errors
+  attr_reader :errors, :result
 
   FORMAT = { year: '%Y', month: '%M', day: '%d', hour: '%k', minute: '%M', second: '%S' }.freeze
 
@@ -10,10 +10,6 @@ class Format
     @time_string = ''
     @result      = nil
     formatted_time
-  end
-
-  def result
-    @result
   end
 
   private
