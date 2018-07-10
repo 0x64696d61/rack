@@ -6,7 +6,7 @@ class Runtime
   def call(env)
     start                 = Time.now
     status, headers, body = @app.call(env)
-    headers['X-Runtime']  = "%fs" % (Time.now - start)
+    #headers['X-Runtime']  = "%fs" % (Time.now - start)
 
     [status, headers, body]
   end
