@@ -8,20 +8,24 @@ class Format
     @request     = request
     @errors      = []
     @time_string = ''
+    @result      = nil
+    formatted_time
   end
 
+  def result
+    @result
+  end
+
+  private
 
   def formatted_time
     matching(@request["format"].split(','))
     if @errors.empty?
-      t = Time.now
-      t.strftime(@time_string.chop!)
-    else
-      nil
+      t       = Time.now
+      @result = t.strftime(@time_string.chop!)
     end
+    nil
   end
-
-  private
 
   def matching(keys)
     keys.each do |key|

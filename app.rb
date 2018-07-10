@@ -16,12 +16,12 @@ class App
   end
 
   def time_response(params)
-    @formatter = Format.new(params)
-    if @formatter.formatted_time
-      @response.write @formatter.formatted_time
+    formatter = Format.new(params)
+    if formatter.result
+      @response.write formatter.result
       @response.status = 200
     else
-      @response.write "Unknown time format #{@formatter.errors}"
+      @response.write "Unknown time format #{formatter.errors}"
       @response.status = 400
     end
   end
